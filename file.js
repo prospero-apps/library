@@ -62,7 +62,6 @@ function addNewBook() {
                     readInput.checked);
 
     addBookToLibrary(book); 
-    //books.appendChild(createBook(book));
     updateBooks();
 
     newBookForm.reset();
@@ -128,6 +127,14 @@ function createBook(book) {
     readCheckbox.type = 'checkbox';
     readCheckbox.className = 'read-checkbox';
     readCheckbox.checked = book.read;
+    readCheckbox.addEventListener('click', () => {
+        if(readCheckbox.checked) {
+            book.read = true;
+        } else {
+            book.read = false;
+        } 
+        updateBooks();       
+    })
 
     readLabel.appendChild(readCheckbox);
     readDiv.appendChild(readLabel);
@@ -151,6 +158,22 @@ function displayBooks() {
 function updateBooks() {
     books.replaceChildren();
     displayBooks();
+    updateStats();    
 }
 
+function updateStats() {    
+    bookCount.textContent = library.length;
+    completedCount.textContent = library.filter(checkRead).length;
+    pageCount.textContent = library.reduce(sumPages, 0);
+}
+
+function checkRead(book) {
+    return book.read;
+}
+
+function sumPages(total, book) {
+    return total + +book.pages;
+}
+
+updateStats();
 displayBooks();
