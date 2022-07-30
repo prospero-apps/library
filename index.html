@@ -29,8 +29,8 @@
                             <button type="button">Remove this book</button>
                         </div>
                         <div class="read">
-                            <label for="read">Mark as read </label>
-                            <input id="read" type="checkbox">
+                            <label for="read1">Mark as read </label>
+                            <input id="read1" type="checkbox" class="read-checkbox">
                         </div>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
                             <button type="button">Remove this book</button>
                         </div>
                         <div class="read">
-                            <label for="read">Mark as read </label>
-                            <input id="read" type="checkbox">
+                            <label for="read2">Mark as read </label>
+                            <input id="read2" type="checkbox" class="read-checkbox">
                         </div>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                             <button type="button">Remove this book</button>
                         </div>
                         <div class="read">
-                            <label for="read">Mark as read </label>
-                            <input id="read" type="checkbox">
+                            <label for="read3">Mark as read </label>
+                            <input id="read3" type="checkbox" class="read-checkbox">
                         </div>
                     </div>
                 </div>
@@ -83,8 +83,8 @@
                             <button type="button">Remove this book</button>
                         </div>
                         <div class="read">
-                            <label for="read">Mark as read </label>
-                            <input id="read" type="checkbox">
+                            <label for="read4">Mark as read </label>
+                            <input id="read4" type="checkbox" class="read-checkbox">
                         </div>
                     </div>
                 </div>
@@ -101,15 +101,15 @@
                             <button type="button">Remove this book</button>
                         </div>
                         <div class="read">
-                            <label for="read">Mark as read </label>
-                            <input id="read" type="checkbox">
+                            <label for="read5">Mark as read </label>
+                            <input id="read5" type="checkbox" class="read-checkbox">
                         </div>
                     </div>
                 </div>                
             </div>
         </div>
         <div id="sidebar">
-            <div id="add-book">
+            <form id="add-book" action="#" method="post">
                 <h1>Add New Book</h1>
                 <div id="book-data">
                     <div class="book-info">
@@ -138,24 +138,24 @@
                     </div>
                 </div>
                 <div class="buttons">
-                    <button type="button" id="cancel-button">Cancel</button>
+                    <button type="reset" id="cancel-button">Cancel</button>
                     <button type="button" id="add-button">Add Book</button>
                 </div>
-            </div>
+            </form>
             <div id="stats">
                 <h1>Stats</h1>
                 <div id="stats-items">
                     <div class="book-stats">
                         <div>Books</div>
-                        <div>5</div>
+                        <div id="book-count">5</div>
                     </div>
                     <div class="book-stats">
                         <div>Completed Books</div>
-                        <div>2</div>
+                        <div id="completed-count">2</div>
                     </div>
                     <div class="book-stats">
                         <div>Total Pages</div>
-                        <div>1245</div>
+                        <div id="page-count">1245</div>
                     </div>
                 </div>
             </div>

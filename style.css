@@ -173,8 +173,18 @@
     background-color: red;
 }
 
+#cancel-button:hover,
+#cancel-button:active {
+    background-color: pink;
+}
+
 #add-button {
     background-color: green;
+}
+
+#add-button:hover,
+add-button:active {
+    background-color: lightgreen;
 }
 
 #stats h1 {
