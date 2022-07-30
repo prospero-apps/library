@@ -62,7 +62,8 @@ function addNewBook() {
                     readInput.checked);
 
     addBookToLibrary(book); 
-    books.appendChild(createBook(book));
+    //books.appendChild(createBook(book));
+    updateBooks();
 
     newBookForm.reset();
 }
@@ -109,6 +110,11 @@ function createBook(book) {
     let removeButton = document.createElement('button');
     removeButton.type = 'button';
     removeButton.textContent = 'Remove this book';
+    removeButton.addEventListener('click', () => {
+        let bookIndex = library.indexOf(book);
+        library.splice(bookIndex, 1);
+        updateBooks();
+    })
 
     removeDiv.appendChild(removeButton);
 
@@ -140,6 +146,11 @@ function displayBooks() {
     for(let i = 0; i < library.length; i++) {
         books.appendChild(createBook(library[i]));        
     }
+}
+
+function updateBooks() {
+    books.replaceChildren();
+    displayBooks();
 }
 
 displayBooks();
