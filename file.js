@@ -17,6 +17,9 @@ const pageCount = document.querySelector('#page-count');
 // books section
 const books = document.querySelector('#books');
 
+// sidebar form
+const newBookForm = document.getElementById('add-book');
+
 /* Main stuff */
 let library = [];
 
@@ -50,15 +53,18 @@ addBookToLibrary(book5);
 // add new book
 addButton.addEventListener('click', addNewBook);
 
-function addNewBook() {
+function addNewBook() {    
     let book = new Book(titleInput.value,
                     authorInput.value,
                     pagesInput.value,
                     publishedInput.value,
                     languageInput.value,
-                    readInput.value);
+                    readInput.checked);
 
     addBookToLibrary(book); 
+    books.appendChild(createBook(book));
+
+    newBookForm.reset();
 }
 
 function createBook(book) {
