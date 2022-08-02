@@ -21,21 +21,154 @@ const books = document.querySelector('#books');
 const newBookForm = document.getElementById('add-book');
 
 /* Main stuff */
-let library = [];
+//let library = [];
 
 // book constructor
-function Book(title, author, pages, year, language, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.year = year;
-    this.language = language;
-    this.read = read;
+class Book {
+    constructor(title, author, pages, year, language, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.year = year;
+        this.language = language;
+        this.read = read;
+    }    
 }
 
-function addBookToLibrary(book) {
-    library.push(book);
+class Library {
+    constructor(library) {
+        this.library = library;
+        addButton.addEventListener('click', this.addNewBook.bind(this));
+    }
+
+    addBookToLibrary(book) {
+        this.library.push(book);
+    }
+
+    addNewBook() {    
+        let book = new Book(titleInput.value,
+                        authorInput.value,
+                        pagesInput.value,
+                        publishedInput.value,
+                        languageInput.value,
+                        readInput.checked);
+    
+        this.addBookToLibrary(book); 
+        this.updateBooks();
+    
+        newBookForm.reset();
+    }
+
+    updateBooks() {
+        books.replaceChildren();
+        this.displayBooks();
+        this.updateStats();    
+    }
+
+    displayBooks() {
+        for(let i = 0; i < this.library.length; i++) {
+            books.appendChild(this.createBook(this.library[i]));        
+        }
+    }
+
+    updateStats() {    
+        bookCount.textContent = this.library.length;
+        completedCount.textContent = this.library.filter(this.checkRead).length;
+        pageCount.textContent = this.library.reduce(this.sumPages, 0);
+    }
+
+    checkRead(book) {
+        return book.read;
+    }
+
+    sumPages(total, book) {
+        return total + +book.pages;
+    }
+
+    createBook(book) {
+        let bookDiv = document.createElement('div');
+        bookDiv.className = 'book';
+        
+        let titleDiv = document.createElement('div');
+        titleDiv.className = 'title';
+        titleDiv.textContent = book.title;
+    
+        let bookDetailsDiv = document.createElement('div');
+        bookDetailsDiv.className = 'book-details';
+    
+    
+        let authorDiv = document.createElement('div');
+        authorDiv.className = 'author';
+        authorDiv.textContent = book.author;
+    
+        let pagesDiv = document.createElement('div');
+        pagesDiv.className = 'pages';
+        pagesDiv.textContent = book.pages;
+    
+        let publishedDiv = document.createElement('div');
+        publishedDiv.className = 'published';
+        publishedDiv.textContent = book.year;
+    
+        let languageDiv = document.createElement('div');
+        languageDiv.className = 'language';
+        languageDiv.textContent = book.language;
+    
+        bookDetailsDiv.appendChild(authorDiv);
+        bookDetailsDiv.appendChild(pagesDiv);
+        bookDetailsDiv.appendChild(publishedDiv);
+        bookDetailsDiv.appendChild(languageDiv);
+    
+        let handleBookDiv = document.createElement('div');
+        handleBookDiv.className = 'handle-book';
+    
+        let removeDiv = document.createElement('div');
+        removeDiv.className = 'remove';
+    
+        let removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.textContent = 'Remove this book';
+        removeButton.addEventListener('click', () => {
+            let bookIndex = this.library.indexOf(book);
+            this.library.splice(bookIndex, 1);
+            this.updateBooks();
+        })
+    
+        removeDiv.appendChild(removeButton);
+    
+        let readDiv = document.createElement('div');
+        readDiv.className = 'read';
+    
+        let readLabel = document.createElement('label');
+        readLabel.textContent = 'Mark as read ';
+    
+        let readCheckbox = document.createElement('input');
+        readCheckbox.type = 'checkbox';
+        readCheckbox.className = 'read-checkbox';
+        readCheckbox.checked = book.read;
+        readCheckbox.addEventListener('click', () => {
+            if(readCheckbox.checked) {
+                book.read = true;
+            } else {
+                book.read = false;
+            } 
+            this.updateBooks();       
+        })
+    
+        readLabel.appendChild(readCheckbox);
+        readDiv.appendChild(readLabel);
+    
+        handleBookDiv.appendChild(removeDiv);
+        handleBookDiv.appendChild(readDiv);
+    
+        bookDiv.appendChild(titleDiv);
+        bookDiv.appendChild(bookDetailsDiv);
+        bookDiv.appendChild(handleBookDiv);
+    
+        return bookDiv;
+    }
 }
+
+let library = new Library([]);
 
 // sample books
 let book1 = new Book('The Last Battle', 'Clark Jackson', 326, 2001, 'English', false);
@@ -44,136 +177,11 @@ let book3 = new Book('Operation Sahara', 'Mary Botte', 310, 1999, 'English', fal
 let book4 = new Book('The Sad Story of Pauline', 'Tricia Garcia', 272, 2014, 'English', true);
 let book5 = new Book('La rousse dans le bois', 'Pierre Dubois', 452, 2010, 'French', false);
 
-addBookToLibrary(book1);
-addBookToLibrary(book2);
-addBookToLibrary(book3);
-addBookToLibrary(book4);
-addBookToLibrary(book5);
+library.addBookToLibrary(book1);
+library.addBookToLibrary(book2);
+library.addBookToLibrary(book3);
+library.addBookToLibrary(book4);
+library.addBookToLibrary(book5);
 
-// add new book
-addButton.addEventListener('click', addNewBook);
-
-function addNewBook() {    
-    let book = new Book(titleInput.value,
-                    authorInput.value,
-                    pagesInput.value,
-                    publishedInput.value,
-                    languageInput.value,
-                    readInput.checked);
-
-    addBookToLibrary(book); 
-    updateBooks();
-
-    newBookForm.reset();
-}
-
-function createBook(book) {
-    let bookDiv = document.createElement('div');
-    bookDiv.className = 'book';
-    
-    let titleDiv = document.createElement('div');
-    titleDiv.className = 'title';
-    titleDiv.textContent = book.title;
-
-    let bookDetailsDiv = document.createElement('div');
-    bookDetailsDiv.className = 'book-details';
-
-
-    let authorDiv = document.createElement('div');
-    authorDiv.className = 'author';
-    authorDiv.textContent = book.author;
-
-    let pagesDiv = document.createElement('div');
-    pagesDiv.className = 'pages';
-    pagesDiv.textContent = book.pages;
-
-    let publishedDiv = document.createElement('div');
-    publishedDiv.className = 'published';
-    publishedDiv.textContent = book.year;
-
-    let languageDiv = document.createElement('div');
-    languageDiv.className = 'language';
-    languageDiv.textContent = book.language;
-
-    bookDetailsDiv.appendChild(authorDiv);
-    bookDetailsDiv.appendChild(pagesDiv);
-    bookDetailsDiv.appendChild(publishedDiv);
-    bookDetailsDiv.appendChild(languageDiv);
-
-    let handleBookDiv = document.createElement('div');
-    handleBookDiv.className = 'handle-book';
-
-    let removeDiv = document.createElement('div');
-    removeDiv.className = 'remove';
-
-    let removeButton = document.createElement('button');
-    removeButton.type = 'button';
-    removeButton.textContent = 'Remove this book';
-    removeButton.addEventListener('click', () => {
-        let bookIndex = library.indexOf(book);
-        library.splice(bookIndex, 1);
-        updateBooks();
-    })
-
-    removeDiv.appendChild(removeButton);
-
-    let readDiv = document.createElement('div');
-    readDiv.className = 'read';
-
-    let readLabel = document.createElement('label');
-    readLabel.textContent = 'Mark as read ';
-
-    let readCheckbox = document.createElement('input');
-    readCheckbox.type = 'checkbox';
-    readCheckbox.className = 'read-checkbox';
-    readCheckbox.checked = book.read;
-    readCheckbox.addEventListener('click', () => {
-        if(readCheckbox.checked) {
-            book.read = true;
-        } else {
-            book.read = false;
-        } 
-        updateBooks();       
-    })
-
-    readLabel.appendChild(readCheckbox);
-    readDiv.appendChild(readLabel);
-
-    handleBookDiv.appendChild(removeDiv);
-    handleBookDiv.appendChild(readDiv);
-
-    bookDiv.appendChild(titleDiv);
-    bookDiv.appendChild(bookDetailsDiv);
-    bookDiv.appendChild(handleBookDiv);
-
-    return bookDiv;
-}
-
-function displayBooks() {
-    for(let i = 0; i < library.length; i++) {
-        books.appendChild(createBook(library[i]));        
-    }
-}
-
-function updateBooks() {
-    books.replaceChildren();
-    displayBooks();
-    updateStats();    
-}
-
-function updateStats() {    
-    bookCount.textContent = library.length;
-    completedCount.textContent = library.filter(checkRead).length;
-    pageCount.textContent = library.reduce(sumPages, 0);
-}
-
-function checkRead(book) {
-    return book.read;
-}
-
-function sumPages(total, book) {
-    return total + +book.pages;
-}
-
-updateStats();
-displayBooks();
+library.updateStats();
+library.displayBooks();
