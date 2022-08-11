@@ -9,6 +9,41 @@ const readInput = document.querySelector('#book-read');
 const cancelButton = document.querySelector('#cancel-button');
 const addButton = document.querySelector('#add-button');
 
+const inputsToValidate = [
+    titleInput,
+    authorInput,
+    pagesInput,
+    publishedInput,
+    languageInput
+]
+
+// validation
+for (const input of inputsToValidate) {
+    input.addEventListener('input', () => {
+        if (input.value == '') {
+            input.classList.add('invalid');
+        } else {
+            input.classList.remove('invalid');
+        }
+    });    
+}
+
+function validate() {
+    for (const input of inputsToValidate) {
+        if (input.value == '') {
+            input.classList.add('invalid');
+        } else {
+            input.classList.remove('invalid');
+        }
+    }
+
+    if (inputsToValidate.some((input) => input.classList.contains('invalid'))) {
+        return false;        
+    } else {
+        return true;
+    }
+}
+
 // stats
 const bookCount = document.querySelector('#book-count');
 const completedCount = document.querySelector('#completed-count');
@@ -51,7 +86,11 @@ addBookToLibrary(book4);
 addBookToLibrary(book5);
 
 // add new book
-addButton.addEventListener('click', addNewBook);
+addButton.addEventListener('click', () => {
+    if (validate()) {
+        addNewBook();
+    }
+});
 
 function addNewBook() {    
     let book = new Book(titleInput.value,

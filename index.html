@@ -18,32 +18,33 @@
             <div id="books"></div>
         </div>
         <div id="sidebar">
-            <form id="add-book" action="#" method="post">
+            <!-- <form id="add-book" action="#" method="post"> -->
+            <form id="add-book" novalidate>
                 <h1>Add New Book</h1>
                 <div id="book-data">
                     <div class="book-info">
                         <label for="book-title">Title</label>
-                        <input type="text" id="book-title">
+                        <input type="text" id="book-title" required>
                     </div>
                     <div class="book-info">
                         <label for="book-author">Author</label>
-                        <input type="text" id="book-author">
+                        <input type="text" id="book-author" required>
                     </div>
                     <div class="book-info">
                         <label for="book-pages">Number of pages</label>
-                        <input type="number" id="book-pages">
+                        <input type="number" id="book-pages" required>
                     </div>
                     <div class="book-info">
                         <label for="book-published">Year of publication</label>
-                        <input type="text" id="book-published">
+                        <input type="text" id="book-published" required>
                     </div>
                     <div class="book-info">
                         <label for="book-language">Language</label>
-                        <input type="text" id="book-language">
+                        <input type="text" id="book-language" required>
                     </div>
                     <div class="read">
                         <label for="book-read">Completed </label>
-                        <input type="checkbox" id="book-read">
+                        <input type="checkbox" id="book-read" required>
                     </div>
                 </div>
                 <div class="buttons">

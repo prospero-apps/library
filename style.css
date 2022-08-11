@@ -140,6 +140,10 @@
     margin-top: .25em;
 }
 
+.book-info input.invalid {
+    background-color: pink;
+}
+
 #sidebar label {
     font-size: 1.25em;
 }
